@@ -7,22 +7,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:talker_shop_app_example/bloc/observer.dart';
 import 'package:talker_shop_app_example/repositories/products/products.dart';
 import 'package:talker_shop_app_example/ui/presentation_frame.dart';
 import 'package:talker_shop_app_example/ui/ui.dart';
 
 import 'firebase_options.dart';
 
-void main() {
-  runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await _initFirease();
-    _initTalker();
-    _registerRepositories();
-    Bloc.observer = TalkerBlocObserver(talker: GetIt.instance<Talker>());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _initFirease();
+  _initTalker();
+  _registerRepositories();
+  Bloc.observer = AppBlocObserver();
+  runZonedGuarded(() {
     runApp(const MyApp());
   }, (Object error, StackTrace stack) {
     GetIt.instance<Talker>().handle(error, stack, 'Uncaught app exception');
@@ -90,6 +90,7 @@ void _initTalker() {
 
 void _registerRepositories() {
   final dio = Dio();
+  // _tryPrecacheDio();
   dio.interceptors.add(GetIt.instance<TalkerDioLogger>());
 
   GetIt.instance.registerSingleton<AbstractProductsRepository>(

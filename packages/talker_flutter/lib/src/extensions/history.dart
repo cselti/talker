@@ -6,7 +6,9 @@ extension HistoryListFlutterText on List<TalkerDataInterface> {
   String get flutterText {
     final sb = StringBuffer();
     for (final data in this) {
-      final text = data.generateTextMessage();
+      final text = data is FlutterTalkerDataInterface
+          ? data.generateFlutterTextMessage()
+          : data.generateTextMessage();
       sb.write('$text\n');
       sb.write(ConsoleUtils.getUnderline(30));
     }

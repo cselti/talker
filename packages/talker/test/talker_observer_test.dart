@@ -7,13 +7,14 @@ final _exceptionsStore = <TalkerException>[];
 
 class MockTalkerObserver extends TalkerObserver {
   @override
-  void onError(TalkerError err) => _errorsStore.add(err);
+  Function(TalkerError err) get onError => (err) => _errorsStore.add(err);
 
   @override
-  void onException(TalkerException e) => _exceptionsStore.add(e);
+  Function(TalkerException err) get onException =>
+      (e) => _exceptionsStore.add(e);
 
   @override
-  void onLog(TalkerDataInterface log) => _logsStore.add(log);
+  Function(TalkerDataInterface log) get onLog => (log) => _logsStore.add(log);
 }
 
 void main() {

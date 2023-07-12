@@ -42,9 +42,10 @@ void _testFilterBySearchText({
       configureFilter: configureFilter,
       useTalkerFilter: useTalkerFilter,
       searchQuery: 'http',
-      countFound: 4,
+      countFound: 5,
       logCallback: (talker) {
         talker.error('HTTP log');
+        talker.fine('Http log');
         talker.good('Log http request');
         talker.warning('http');
         talker.debug('Log http');
@@ -75,7 +76,7 @@ void _testFilterByTypes({
       types: [TalkerError],
       countFound: 2,
       logCallback: (talker) {
-        talker.good('Test log');
+        talker.fine('Test log');
         talker.handle(ArgumentError());
         talker.handle(ArgumentError());
       },

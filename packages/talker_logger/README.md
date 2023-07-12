@@ -1,6 +1,5 @@
 # talker_logger
-
-**Logger. Easy, customizable, extensible logging, lightweight with filters, formatters, custom logs, log levels.**
+### [Talker](https://github.com/Frezyx/talker) - Advanced exception handling and logging for dart/flutter applications 🚀
 
 Core [talker](https://github.com/Frezyx/talker) package <br>
 The package is designed to to make simple and extended logs <br>
@@ -23,7 +22,7 @@ Follow these steps to use this package
 ### Add dependency
 ```yaml
 dependencies:
-  talker_logger: ^3.0.3
+  talker_logger: ^2.2.1
 ```
 
 ### Easy to use
@@ -37,6 +36,7 @@ logger.debug('debug');
 logger.info('info');
 logger.critical('critical');
 logger.error('error');
+logger.fine('fine');
 logger.good('good');
 logger.warning('warning');
 logger.verbose('verbose');
@@ -109,6 +109,7 @@ Or you can make simple customization with default formatters
         LogLevel.critical: AnsiPen()..yellow(),
         LogLevel.error: AnsiPen()..yellow(),
         LogLevel.info: AnsiPen()..yellow(),
+        LogLevel.fine: AnsiPen()..yellow(),
       },
       maxLineWidth: 20,
       lineSymbol: '#',
@@ -119,6 +120,7 @@ Or you can make simple customization with default formatters
   logger.info('info');
   logger.critical('critical');
   logger.error('error');
+  logger.fine('fine');
 ```
 
 **Result** <br>

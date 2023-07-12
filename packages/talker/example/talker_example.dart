@@ -1,33 +1,40 @@
 import 'package:talker/talker.dart';
 
 Future<void> main() async {
-  final talker = Talker();
+  final talker = Talker(
+    settings: TalkerSettings(),
+  );
 
-  /// Logs with LogLevel
-  talker.warning('The pizza is over 😥');
-  talker.debug('Thinking about order new one 🤔');
-  talker.error('The restaurant is closed ❌');
-  talker.info('Ordering from other restaurant...');
-  talker.info('Payment started...');
-  talker.good('Payment completed! Waiting for pizza 🍕');
-
-  /// [Exception]'s and [Error]'s handling
   try {
-    throw Exception('Something went wrong');
+    throw Exception('Test service exception');
   } catch (e, st) {
-    talker.handle(e, st, 'Exception with');
+    talker.handle(e, st, 'Working with string error');
   }
 
-  /// Custom logs
-  talker.logTyped(YourCustomLog('Something like your own service message'));
+  talker.log(
+    'Server error',
+    logLevel: LogLevel.critical,
+  );
+
+  talker.fine('Log fine');
+  talker.error('Log error');
+  talker.good('Log good');
+  talker.verbose('Log verbose');
+  talker.warning('Log warning');
+  talker.critical('Log critical');
+
+  final httpLog = HttpTalkerLog('Http good');
+  talker.logTyped(httpLog);
 }
 
-class YourCustomLog extends TalkerLog {
-  YourCustomLog(String message) : super(message);
+class HttpTalkerLog extends TalkerLog {
+  HttpTalkerLog(String message) : super(message);
 
   @override
-  String get title => 'CUSTOM';
+  AnsiPen get pen => AnsiPen()..xterm(49);
 
   @override
-  AnsiPen get pen => AnsiPen()..xterm(121);
+  String generateTextMessage() {
+    return pen.write(message);
+  }
 }

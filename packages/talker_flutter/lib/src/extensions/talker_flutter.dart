@@ -6,17 +6,23 @@ import 'package:talker_flutter/talker_flutter.dart';
 extension TalkerFlutter on Talker {
   static Talker init({
     TalkerLogger? logger,
-    TalkerObserver? observer,
     TalkerSettings? settings,
     TalkerFilter? filter,
+    TalkerLoggerSettings? loggerSettings,
+    TalkerLoggerFilter? loggerFilter,
+    LoggerFormatter? loggerFormater,
+    List<TalkerObserver>? observers,
+    Function(String message)? loggerOutput,
   }) =>
       Talker(
-        logger: (logger ?? TalkerLogger()).copyWith(
-          output: _defaultFlutterOutput,
-        ),
+        logger: logger,
         settings: settings,
-        observer: observer,
         filter: filter,
+        loggerSettings: loggerSettings,
+        loggerFilter: loggerFilter,
+        loggerFormater: loggerFormater,
+        observers: observers,
+        loggerOutput: loggerOutput ?? _defaultFlutterOutput,
       );
 
   static dynamic _defaultFlutterOutput(String message) {

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:talker/talker.dart';
-import 'package:talker_dio_logger/dio_logs.dart';
+import 'package:talker_dio_logger/http_logs.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
 /// [Dio] http client logger on [Talker] base
@@ -15,6 +15,10 @@ class TalkerDioLogger extends Interceptor {
     this.addonId,
   }) {
     _talker = talker ?? Talker();
+    _talker.registerAddon(
+      code: addonId ?? TalkerOriginalAddons.talkerDioLogger.code,
+      addon: this,
+    );
   }
 
   late Talker _talker;
@@ -55,13 +59,9 @@ class TalkerDioLogger extends Interceptor {
     RequestInterceptorHandler handler,
   ) {
     super.onRequest(options, handler);
-    final accepted = settings.requestFilter?.call(options) ?? true;
-    if (!accepted) {
-      return;
-    }
     try {
       final message = '${options.uri}';
-      final httpLog = DioRequestLog(
+      final httpLog = HttpRequestLog(
         message,
         requestOptions: options,
         settings: settings,
@@ -75,13 +75,9 @@ class TalkerDioLogger extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     super.onResponse(response, handler);
-    final accepted = settings.responseFilter?.call(response) ?? true;
-    if (!accepted) {
-      return;
-    }
     try {
       final message = '${response.requestOptions.uri}';
-      final httpLog = DioResponseLog(
+      final httpLog = HttpResponseLog(
         message,
         settings: settings,
         response: response,
@@ -93,13 +89,13 @@ class TalkerDioLogger extends Interceptor {
   }
 
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
+  void onError(DioError err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
     try {
       final message = '${err.requestOptions.uri}';
-      final httpErrorLog = DioErrorLog(
+      final httpErrorLog = HttpErrorLog(
         message,
-        dioException: err,
+        dioError: err,
         settings: settings,
       );
       _talker.logTyped(httpErrorLog);

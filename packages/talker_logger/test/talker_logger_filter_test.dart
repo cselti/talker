@@ -2,7 +2,7 @@ import 'package:talker_logger/talker_logger.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('BaseLoggerFilter', () {
+  group('BaseTalkerLoggerFilter', () {
     group('shouldLog', () {
       for (final level in LogLevel.values) {
         _testShouldLog(level);
@@ -33,4 +33,5 @@ void _testCompareLevels(LogLevel level, LogLevel acceptedLevel) {
   });
 }
 
-LoggerFilter _getFilter(LogLevel level) => LogLevelFilter(level);
+TalkerLoggerFilter _getFilter(LogLevel level) =>
+    LogLevelTalkerLoggerFilter(level);

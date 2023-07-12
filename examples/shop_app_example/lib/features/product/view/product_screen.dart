@@ -139,10 +139,10 @@ class _ProductScreenState extends State<ProductScreen> {
                                 ],
                               ),
                               const Spacer(flex: 1),
-                              const Column(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
-                                children: [
+                                children: const [
                                   Flexible(
                                     child: Text(
                                       'Product details',
@@ -267,8 +267,8 @@ class AddToCartButton extends StatelessWidget {
           Icons.shopping_basket,
         ),
       ),
-      label: const Row(
-        children: [
+      label: Row(
+        children: const [
           Text('Add to card'),
         ],
       ),
